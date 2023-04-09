@@ -55,7 +55,7 @@ public class UserController {
         if (!user.isPresent()) {
             return ResponseEntity.notFound().build();
         }
-        user.get().setName(userDetails.getName());
+        user.get().setUsername(userDetails.getUsername());
         user.get().setPassword(userDetails.getPassword());
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(user.get()));
     }

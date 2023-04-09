@@ -1,11 +1,18 @@
 package com.pruebatec.pruebatecbackend.models;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
 
 @Entity
 @Table(name = "users")
@@ -16,8 +23,8 @@ public class User {
     @Column
     private long id;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "username")
+    private String username;
 
     @Column(name = "dni") 
     private String dni;
@@ -28,28 +35,23 @@ public class User {
     @Column(name = "email")
     private String email;
 
-    
-
-    public User(String name, String dni, String password, String email) {
-        this.name = name;
+    public User(String username, String dni, String password, String email) {
+        this.username = username;
         this.dni = dni;
         this.password = password;
         this.email = email;
-    }
-
-    public User() {
     }
 
     public long getId() {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getDni() {
@@ -75,7 +77,10 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_authorities",
+    joinColumns = @JoinColumn(name="user_id", referencedColumnName = "id"),
+    inverseJoinColumns = @JoinColumn( name = "authority_id", referencedColumnName = "id"))
+    private List<Authority>authorities;
 
-    
-    
 }
